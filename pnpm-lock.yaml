@@ -14,6 +14,9 @@ importers:
       '@supabase/ssr':
         specifier: ^0.8.0
         version: 0.8.0(@supabase/supabase-js@2.90.1)
+      '@supabase/supabase-js':
+        specifier: ^2.90.1
+        version: 2.90.1
       next:
         specifier: 15.5.9
         version: 15.5.9(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
