@@ -56,6 +56,6 @@ export async function signUpAuthor(formData: FormData): Promise<Response> {
   if (!!dbError) return { success: false, response: dbError };
 
   revalidatePath("/authors");
-  revalidateTag(AUTHORS_TAG, "max");
+  revalidateTag(AUTHORS_TAG);
   return { success: true, response: null };
 }
