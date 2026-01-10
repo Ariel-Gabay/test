@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/lib/components/Header";
 import { cookies } from "next/headers";
+import DebugCacheOverlay from "@/lib/components/DebugCacheOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default async function RootLayout({
       >
         {/* <Header /> */}
         {children}
+        <DebugCacheOverlay />
       </body>
     </html>
   );
