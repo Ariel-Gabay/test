@@ -17,9 +17,19 @@ async function fetchDB() {
 }
 
 // פונקציה לדוגמה לזיהוי סוג הדף
-function detectPageType() {
-  // אפשר להוסיף לוגיקה אמיתית לפי need
-  return "SSG / ISR / SSR";
+function detectPageType(requestHeaders: Headers) {
+  const prerender = requestHeaders.get("x-nextjs-prerender");
+  const staleTime = requestHeaders.get("x-nextjs-stale-time");
+
+  if (prerender === "1") {
+    if (staleTime && parseInt(staleTime) > 0) {
+      return "ISR (Incremental Static Regeneration)";
+    } else {
+      return "SSG (Static Site Generation)";
+    }
+  }
+
+  return "SSR (Server-Side Rendering)";
 }
 
 export async function GET() {
@@ -32,7 +42,7 @@ export async function GET() {
   // קריאה ל־DB עם חישוב זמן טעינה
   const dbData = await fetchDB();
 
-  const pageType = detectPageType();
+  const pageType = detectPageType(requestHeaders);
 
   // החזרת JSON עם כל המידע
   return new Response(
