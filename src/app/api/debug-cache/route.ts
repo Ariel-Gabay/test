@@ -1,37 +1,51 @@
+// src/app/api/debug-cache/route.ts
 import { headers } from "next/headers";
 
-// סימולציה של fetch ל-DB עם cache info
+// דוגמה לפונקציה המדמה קריאה ל־DB
 async function fetchDB() {
-  // לדוגמה – חצי מהפעמים מה-cache
-  const cached = Math.random() > 0.5;
+  const start = performance.now();
 
-  // זמן אחזור דמה
-  const delay = cached ? 10 : 150;
-  await new Promise((res) => setTimeout(res, delay));
+  // כאן תשים את הקריאה האמיתית ל־DB שלך
+  const data = { message: "Hello from DB" };
 
-  return { message: "DB Data", cached };
+  const end = performance.now();
+  return {
+    data,
+    cacheStatus: "MISS", // כאן תוכל לשים לוגיקה אמיתית אם DB משתמש בקאש או לא
+    dbFetchTime: Math.round(end - start),
+  };
 }
 
-// סוג הדף (SSG / SSR / ISR)
-function detectPageType(): string {
-  // כאן אפשר לוגיקה אמיתית לפי הנתונים או fallback
-  // למשל ניתן להעביר פרופס מה-server
-  return "SSG"; // לשינוי: SSR / ISR / Client
+// פונקציה לדוגמה לזיהוי סוג הדף
+function detectPageType() {
+  // אפשר להוסיף לוגיקה אמיתית לפי need
+  return "SSG / ISR / SSR";
 }
 
 export async function GET() {
-  const requestHeaders = headers();
+  // Next.js 15 headers() מחזיר Promise
+  const requestHeaders = await headers();
+
+  // בדיקה אם הדף נטען מה־cache של Next.js
   const pageCache = requestHeaders.get("x-nextjs-cache") || "UNKNOWN";
 
+  // קריאה ל־DB עם חישוב זמן טעינה
   const dbData = await fetchDB();
+
   const pageType = detectPageType();
 
+  // החזרת JSON עם כל המידע
   return new Response(
     JSON.stringify({
       pageCache,
       pageType,
-      dbCache: dbData.cached,
+      dbCache: dbData.cacheStatus,
+      dbFetchTime: dbData.dbFetchTime,
+      dbData: dbData.data,
     }),
-    { headers: { "Content-Type": "application/json" } }
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    }
   );
 }
