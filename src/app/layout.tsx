@@ -26,12 +26,12 @@ export default async function RootLayout({
 }>) {
   let theme = "light";
 
-  await cookies()
-    .then((cookies) => {
-      const value = cookies.get("theme")?.value;
-      if (typeof value === "string") theme = value;
-    })
-    .catch();
+  // await cookies()
+  //   .then((cookies) => {
+  //     const value = cookies.get("theme")?.value;
+  //     if (typeof value === "string") theme = value;
+  //   })
+  //   .catch();
 
   return (
     <html lang="he" dir="rtl" data-theme={theme}>
@@ -41,7 +41,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        {/* <Header /> */}
         {children}
       </body>
     </html>
