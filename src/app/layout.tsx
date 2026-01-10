@@ -24,7 +24,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = "light";
+  // const theme = "light";
 
   // await cookies()
   //   .then((cookies) => {
@@ -34,7 +34,7 @@ export default async function RootLayout({
   //   .catch();
 
   return (
-    <html lang="he" dir="rtl" data-theme={theme}>
+    <html lang="he" dir="rtl" data-theme="light">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
