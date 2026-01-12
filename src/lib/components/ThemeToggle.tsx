@@ -29,8 +29,13 @@ export default function ThemeToggle() {
   }
 
   return (
-    <button onClick={toggle}>
-      {theme === "dark" ? "☀️ מצב בהיר" : "🌙 מצב כהה"}
-    </button>
+    <>
+      <button onClick={toggle} className="theme-light-but">
+        ☀️ מצב בהיר
+      </button>
+      <button onClick={toggle} className="theme-dark-but">
+        🌙 מצב כהה
+      </button>
+    </>
   );
 }

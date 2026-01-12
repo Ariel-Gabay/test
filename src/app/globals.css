@@ -35,7 +35,7 @@
   background-color: #ffffff;
   color: #111111;
 } */
-:root {
+html[data-theme="light"] {
   --bg: white;
   --fg: black;
 }
@@ -45,7 +45,91 @@ html[data-theme="dark"] {
   --fg: #f5f5f5;
 }
 
+html[data-theme="light"] .theme-light-but {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-light-but {
+  display: inline-block;
+}
+
+html[data-theme="light"] .theme-dark-but {
+  display: inline-block;
+}
+
+html[data-theme="dark"] .theme-dark-but {
+  display: none;
+}
+
 body {
   background: var(--bg);
   color: var(--fg);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* אוואטר */
+.profile .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  background-size: cover;
+  background-position: center;
+}
+
+/* טקסטים */
+.profile .name::before {
+  content: "אורח";
+  font-weight: 600;
+}
+
+.profile .email {
+  display: var(--is-user-display);
+}
+
+/* ===== משתמש מחובר ===== */
+
+html.is-user .profile .avatar {
+  background-image: var(--user-avatar);
+}
+
+html.is-user .profile .name::before {
+  content: var(--user-name);
+}
+
+html.is-user .profile .email {
+  display: block;
+}
+
+html.is-user .profile .email::before {
+  content: var(--user-email);
+}
+
+/* ברירת מחדל – אורח */
+.logout-btn {
+  display: none; /* לא מוצג אם אין משתמש */
+}
+
+/* למשתמש מחובר */
+html.is-user .logout-btn {
+  display: inline-block; /* מוצג רק למשתמש מחובר */
+}
+
+html.is-user .login-btn {
+  display: none; /* מסתיר כפתור הירשם אם משתמש מחובר */
+}
+
+/* למשתמש אורח */
+html .login-btn {
+  display: inline-block; /* מוצג רק לאורח */
+}
+
+/* html.is-guest .logout-btn { */
+html .logout-btn {
+  display: none; /* מסתיר כפתור ההתנתקות */
 }

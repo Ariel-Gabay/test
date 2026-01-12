@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeToggle from "@/lib/components/ThemeToggle";
+import Link from "next/link";
+import SignOutButton from "@/lib/components/SignOutButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,50 +25,103 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // app/layout.tsx
-
-  const themeScript = `
-(function() {
-  try {
-    var m = document.cookie.match(/(?:^|; )theme=([^;]+)/);
-    var theme = m ? decodeURIComponent(m[1]) : null;
-
-    if (!theme) {
-      // fallback להעדפת מערכת
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-
-    document.documentElement.setAttribute("data-theme", theme);
-  } catch (e) {}
-})();
-`;
-
-  // const theme = "light";
-
-  // await cookies()
-  //   .then((cookies) => {
-  //     const value = cookies.get("theme")?.value;
-  //     if (typeof value === "string") theme = value;
-  //   })
-  //   .catch();
+  const themeAndProfileInit = `
+    (function() {
+      try {
+        // ===== THEME =====
+        var m = document.cookie.match(/(?:^|; )theme=([^;]+)/);
+        var theme = m ? decodeURIComponent(m[1]) : null;
+    
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+    
+        document.documentElement.setAttribute("data-theme", theme);
+    
+        // ===== UTILS =====
+    
+        function getCookie(name) {
+          var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)'));
+          if (!match) return null;
+          try {
+            return decodeURIComponent(match[1]);
+          } catch {
+            return null;
+          }
+        }
+    
+        function sanitizeText(str) {
+          if (typeof str !== "string") return null;
+    
+          str = str.slice(0, 200);
+    
+          return str.replace(/[<>"'\\\\\`]/g, "");
+        }
+    
+        function sanitizeUrl(url) {
+          if (typeof url !== "string") return null;
+    
+          url = url.trim().slice(0, 500);
+    
+          // רק https
+          if (!url.startsWith("https://")) return null;
+    
+          if (/^(javascript|data|vbscript|file):/i.test(url)) return null;
+    
+          return url;
+        }
+    
+        // ===== PROFILE =====
+    
+        var fullName = sanitizeText(getCookie("full_name"));
+        var email = sanitizeText(getCookie("email"));
+        var avatar = sanitizeUrl(getCookie("avatar_url"));
+    
+        var root = document.documentElement;
+    
+        if (!fullName || !email || !avatar) {
+          root.classList.remove("is-user");
+          return;
+        }
+    
+        root.classList.add("is-user");
+    
+        root.style.setProperty("--user-name", JSON.stringify(fullName));
+        root.style.setProperty("--user-email", JSON.stringify(email));
+        root.style.setProperty("--user-avatar", 'url("' + avatar.replace(/"/g, '%22') + '")');    
+      } catch (e) {}
+    })();
+  `;
 
   return (
     <html lang="he" dir="rtl" data-theme="light" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeAndProfileInit }} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <Header /> */}
+        <div className="profile" suppressHydrationWarning>
+          <div className="avatar" />
+          <div className="texts">
+            <div className="name" />
+            <div className="email" />
+          </div>
+          <Link href="/signin" className="login-btn">
+            התחבר
+          </Link>
+          <SignOutButton />
+          <hr />
+        </div>
+        <ThemeToggle />
         <p>
-          <ThemeToggle />
           {new Date().toLocaleTimeString("he-IL", {
             timeZone: "Asia/Jerusalem",
-            hour12: false, // לפורמט של 24 שעות
+            hour12: false,
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
