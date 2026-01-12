@@ -40,7 +40,15 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <Header /> */}
-        <p>{new Date().toISOString().slice(11, 20)}</p>
+        <p>
+          {new Date().toLocaleTimeString("he-IL", {
+            timeZone: "Asia/Jerusalem",
+            hour12: false, // לפורמט של 24 שעות
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })}
+        </p>
         {children}
       </body>
     </html>
