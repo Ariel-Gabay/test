@@ -12,18 +12,25 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-12-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "NEXT_INC_CACHE_KV",
-  //     "id": "6a3d0f7dbb13459ab471bb080e83dcdf"
-  //   }
-  // ],
-  "r2_buckets": [
+  "d1_databases": [
     {
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "cache"
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "open-next-cache",
+      "database_id": "976cdc3e-b183-47ae-9e57-5bb216bd3d15"
     }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "6a3d0f7dbb13459ab471bb080e83dcdf"
+    }
+  ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "NEXT_INC_CACHE_R2_BUCKET",
+  //     "bucket_name": "cache"
+  //   }
+  // ],
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
@@ -48,14 +55,7 @@
     "NEXT_PUBLIC_SUPABASE_URL": "https://wnifthoolaprtfaaclbq.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduaWZ0aG9vbGFwcnRmYWFjbGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NTQyODIsImV4cCI6MjA3ODQzMDI4Mn0.oSK8OCDBt96znHICgdR8veqe5p5wwEYd6CZbwsz-nfs",
     "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduaWZ0aG9vbGFwcnRmYWFjbGJxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Mjg1NDI4MiwiZXhwIjoyMDc4NDMwMjgyfQ.8N5wUWU6hl-8iecrhxBqXiRJnbJGIa3-cemfAm68Gio"
-  },
-  "d1_databases": [
-    {
-      "binding": "NEXT_TAG_CACHE_D1",
-      "database_name": "open-next-cache",
-      "database_id": "976cdc3e-b183-47ae-9e57-5bb216bd3d15"
-    }
-  ]
+  }
   /**
    * Smart Placement
    * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
