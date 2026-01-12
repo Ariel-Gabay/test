@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ThemeToggle from "@/lib/components/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +23,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // app/layout.tsx
+
+  const themeScript = `
+(function() {
+  try {
+    var m = document.cookie.match(/(?:^|; )theme=([^;]+)/);
+    var theme = m ? decodeURIComponent(m[1]) : null;
+
+    if (!theme) {
+      // fallback להעדפת מערכת
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+
+    document.documentElement.setAttribute("data-theme", theme);
+  } catch (e) {}
+})();
+`;
+
   // const theme = "light";
 
   // await cookies()
@@ -32,8 +53,9 @@ export default async function RootLayout({
   //   .catch();
 
   return (
-    <html lang="he" dir="rtl" data-theme="light">
+    <html lang="he" dir="rtl" data-theme="light" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
       <body
@@ -41,6 +63,7 @@ export default async function RootLayout({
       >
         {/* <Header /> */}
         <p>
+          <ThemeToggle />
           {new Date().toLocaleTimeString("he-IL", {
             timeZone: "Asia/Jerusalem",
             hour12: false, // לפורמט של 24 שעות

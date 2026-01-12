@@ -1,7 +1,7 @@
 import HeaderAuthorProfile from "./HeaderAuthorProfile";
 import getAuthor from "../services/getAuthor";
 import { createClient } from "../supabase/server";
-import Theme from "./Theme";
+import Theme from "./ThemeToggle";
 import SignOutButton from "./SignOutButton";
 import Link from "next/link";
 

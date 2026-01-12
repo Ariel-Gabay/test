@@ -19,18 +19,18 @@
       "database_id": "976cdc3e-b183-47ae-9e57-5bb216bd3d15"
     }
   ],
-  "kv_namespaces": [
-    {
-      "binding": "NEXT_INC_CACHE_KV",
-      "id": "6a3d0f7dbb13459ab471bb080e83dcdf"
-    }
-  ],
-  // "r2_buckets": [
+  // "kv_namespaces": [
   //   {
-  //     "binding": "NEXT_INC_CACHE_R2_BUCKET",
-  //     "bucket_name": "cache"
+  //     "binding": "NEXT_INC_CACHE_KV",
+  //     "id": "6a3d0f7dbb13459ab471bb080e83dcdf"
   //   }
   // ],
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "cache"
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
