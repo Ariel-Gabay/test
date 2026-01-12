@@ -1,11 +1,11 @@
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
-import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
+// import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
+import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";
+import { withRegionalCache } from "@opennextjs/cloudflare/overrides/incremental-cache/regional-cache";
 
 export default defineCloudflareConfig({
-  // Uncomment to enable R2 cache,
-  // It should be imported as:
-  // `import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache";`
-  // See https://opennext.js.org/cloudflare/caching for more details
-  // incrementalCache: r2IncrementalCache,
-  incrementalCache: kvIncrementalCache,
+  incrementalCache: withRegionalCache(r2IncrementalCache, {
+    mode: "long-lived",
+  }),
+  // incrementalCache: kvIncrementalCache,
 });

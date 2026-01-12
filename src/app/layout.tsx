@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/lib/components/Header";
-import { cookies } from "next/headers";
-import DebugCacheOverlay from "@/lib/components/DebugCacheOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,8 +40,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <Header /> */}
+        <p>{new Date().toISOString().slice(11, 20)}</p>
         {children}
-        <DebugCacheOverlay />
       </body>
     </html>
   );
