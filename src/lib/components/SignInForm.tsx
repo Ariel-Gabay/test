@@ -19,7 +19,12 @@ function setUserCookies(
   document.cookie = `full_name=${full_name}; expires=${expires}; path=/`;
   document.cookie = `email=${email}; expires=${expires}; path=/`;
   document.cookie = `avatar_url=${avatar_url}; expires=${expires}; path=/`;
-  document.documentElement.classList.add("is-user");
+
+  const root = document.documentElement;
+  root.style.setProperty("--user-name", JSON.stringify(full_name));
+  root.style.setProperty("--user-email", JSON.stringify(email));
+  root.style.setProperty("--user-avatar", 'url("' + avatar_url + '")');
+  root.classList.add("is-user");
 }
 
 export default function SignInForm() {
@@ -37,7 +42,6 @@ export default function SignInForm() {
         return;
       }
       setMessage(`התחברת בהצלחה`);
-      console.log(response);
       const name = (response as User).user_metadata.full_name;
       const { success: s, response: r } = await getAuthor("full_name", name);
       if (!!s) {
@@ -48,8 +52,8 @@ export default function SignInForm() {
           avatar_url: a.avatar_url ?? "",
         });
       }
+      router.push("/studio");
     });
-    router.push("/studio");
   };
 
   return (

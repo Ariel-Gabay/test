@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/SSRServer";
 import { AuthError, User } from "@supabase/supabase-js";
 
 interface Response {

@@ -85,6 +85,7 @@ export default async function RootLayout({
           root.classList.remove("is-user");
           return;
         }
+        console.log("!!@@!!")
     
         root.classList.add("is-user");
     
@@ -127,6 +128,9 @@ export default async function RootLayout({
             second: "2-digit",
           })}
         </p>
+        <hr />
+        <hr />
+        <hr />
         {children}
       </body>
     </html>

@@ -1,27 +1,24 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/SSRServer";
 import { AuthError } from "@supabase/supabase-js";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 interface Response {
   success: boolean;
-  response: null | AuthError;
+  response: string | AuthError | null;
 }
 
 export async function signOut(): Promise<Response> {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut();
+  let pathname: string | null = null;
 
   if (!error) {
     const headersList = await headers();
-    const pathname = headersList.get("server-pathname");
-    if (pathname && pathname.startsWith("/studio")) {
-      redirect("/auth/sign-in");
-    }
+    pathname = headersList.get("server-pathname");
   }
 
-  return { success: !!error, response: error };
+  return { success: !error, response: !!error ? error : pathname };
 }

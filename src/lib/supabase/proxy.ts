@@ -32,18 +32,19 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // const { data, error } = await supabase.auth.getUser();
-
-  if (request.nextUrl.pathname.startsWith("/studio")) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/authors";
-    return NextResponse.redirect(url);
-  }
-  // if (!data.user && request.nextUrl.pathname.startsWith("/studio")) {
+  const { data, error } = await supabase.auth.getUser();
+  // if (request.nextUrl.pathname.startsWith("/studio")) {
   //   const url = request.nextUrl.clone();
-  //   url.pathname = "/auth/sign-in";
+  //   url.pathname = "/authors";
   //   return NextResponse.redirect(url);
   // }
+  if (!data.user && request.nextUrl.pathname.startsWith("/studio")) {
+    console.log("#########");
+
+    const url = request.nextUrl.clone();
+    url.pathname = "/signin";
+    return NextResponse.redirect(url);
+  }
 
   return supabaseResponse;
 }
